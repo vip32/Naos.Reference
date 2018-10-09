@@ -1,0 +1,21 @@
+version: '3.4'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management-alpine # quest/quest
+
+  naos.reference.billing.app.web:
+    image: naos/reference-billing.api:${TAG:-latest}
+    build:
+      context: .
+      dockerfile: src/Naos.Reference.Billing.App.Web/Dockerfile
+    depends_on:
+      - rabbitmq
+
+  naos.reference.ordering.app.web:
+    image: naos/reference-ordering.api:${TAG:-latest}
+    build:
+      context: .
+      dockerfile: src/Naos.Reference.Ordering.App.Web/Dockerfile
+    depends_on:
+      - rabbitmq
